@@ -7,6 +7,8 @@ The Graph ADT and Social Networks
 
 + The weight for this machine problem is 6% of your raw score in the course.
 + This is an *individual* assignment.
++ Due October 22, by 11:59 p.m.
++ Get your own repository on Github by using this [Github Classroom link](https://classroom.github.com/a/3vWcvIsy).
 
 ## Background
 

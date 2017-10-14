@@ -1,0 +1,31 @@
+# ignore all class files
+*.class
+
+# ignore build directory
+build/
+bin/
+
+# ignore some grade files
+.gradle/
+gradle/
+settings.gradle
+
+# ignore package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ignore log files
+*.log
+
+# ignore metadata
+Thumbs.db
+.DS_Store
+.git/
+.settings/
+.buildpath
+.classpath
+.project

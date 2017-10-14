@@ -1,0 +1,34 @@
+plugins {
+  id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+test.testLogging {
+    exceptionFormat = "full";
+    events "failed", "passed", "skipped", "standardOut", "standardError"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.enabled = true
+        // html.destination "${buildDir}/reports/coverage"
+        // xml.destination "${buildDir}/reports/coverage"
+    }
+}

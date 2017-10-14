@@ -87,6 +87,7 @@ To earn full credit you must:
 
 + You should commit all source code to your assigned Github repository.
 + You should submit your work and preserve the provided repository folder structure. While you should not submit binaries (`.class` files, etc.), it is best to submit all other files so that compilation and execution is easy. Think of working with the staff as your collaborators; you want to keep the repository organization consistent for this purpose.
++ **On Canvas**, you should submit a PDF version of your `Algorithms.java` file for peer review.
 
 ## Previously Asked Questions
 

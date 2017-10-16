@@ -12,29 +12,35 @@ public class AdjacencyListGraph implements Graph {
 	public AdjacencyListGraph() {
 		this.vertexList = new ArrayList<Vertex>();
 		this.edgeList = new ArrayList<List<Vertex>>();
+		assert vertexList.size()==edgeList.size();
 	}
 	
 	public void addVertex(Vertex v) {
 		vertexList.add(v);
 		edgeList.add(new ArrayList<Vertex>());
+		assert vertexList.size()==edgeList.size();
 	}
 	
 	public void addEdge(Vertex v1, Vertex v2) {
 		int index = vertexList.indexOf(v1);
 		edgeList.get(index).add(v2);
+		assert vertexList.size()==edgeList.size();
 	}
 	
 	public boolean edgeExists(Vertex v1, Vertex v2) {
 		int index = vertexList.indexOf(v1);
+		assert vertexList.size()==edgeList.size();
 		return edgeList.get(index).contains(v2);
 	}
 	
 	public List<Vertex> getVertices(){
+		assert vertexList.size()==edgeList.size();
 		return AdjacencyListGraph.cloneList(vertexList);
 	}
 	
 	public List<Vertex> getDownstreamNeighbors(Vertex v){
 		int index = vertexList.indexOf(v);
+		assert vertexList.size()==edgeList.size();
 		return AdjacencyListGraph.cloneList(edgeList.get(index));
 	}
 	
@@ -45,6 +51,7 @@ public class AdjacencyListGraph implements Graph {
 				result.add(vertexList.get(i));
 			}
 		}
+		assert vertexList.size()==edgeList.size();
 		return result;
 	}
 	

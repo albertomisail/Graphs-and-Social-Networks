@@ -40,6 +40,7 @@ public class Parsers {
 		Scanner sc = new Scanner(new File(fileName));
 		while(sc.hasNext()) {
 			String line = sc.nextLine();
+			
 			if(line.charAt(0)!='#') {
 				Vertex v = new Vertex(line.split("\\s+")[0]);
 				Vertex w = new Vertex(line.split("\\s+")[1]);
@@ -51,7 +52,27 @@ public class Parsers {
 				}
 				graph.addEdge(v, w);
 			}
-		}	
+		}
+		/*if(line.charAt(0)!='#') {
+		Vertex v = new Vertex(line.split("\\s+")[0]);
+		Vertex w = new Vertex(line.split("\\s+")[1]);
+		graph.addVertex(v);
+		graph.addVertex(w);;
+		graph.addEdge(v, w);
+		break;
+	}*/
+		/*while(sc.hasNext()) {
+			String line = sc.nextLine();
+			Vertex v = new Vertex(line.split("\\s+")[0]);
+			Vertex w = new Vertex(line.split("\\s+")[1]);
+			if(!graph.getVertices().contains(v)) {
+				graph.addVertex(v);
+			}
+			if(!graph.getVertices().contains(w)) {
+				graph.addVertex(w);
+			}
+			graph.addEdge(v, w);			
+		}*/
 		return graph;
 	}
 

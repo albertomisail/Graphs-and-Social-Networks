@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
+import cosineDocumentSimilarity.Document;
 
 public class Algorithms{
 	
@@ -34,14 +35,19 @@ public class Algorithms{
 	 */
 	public static int shortestDistance(Graph graph, Vertex a, Vertex b) throws NotFoundException {
 		// TODO: Implement this method and others
-		if (a.equals(b)) {
+		/*if (a.equals(b)) {
 			return 0;
 		} else {
 			return shortestDistance(graph, a, b, 1);
+		}*/
+		Map<Vertex, Integer> distances = Algorithms.BFS(graph, a);
+		if(!distances.containsKey(b)) {
+			throw new NotFoundException();
 		}
+		return distances.get(b);
 	}
 
-	private static int shortestDistance(Graph graph, Vertex a, Vertex b, int k) throws NotFoundException {
+	/*private static int shortestDistance(Graph graph, Vertex a, Vertex b, int k) throws NotFoundException {
 		List<Vertex> downstreamNeighbors = graph.getDownstreamNeighbors(a);
 		int result = -1;// ask
 		if (k >= graph.getVertices().size() || downstreamNeighbors.size()==0) {
@@ -55,7 +61,7 @@ public class Algorithms{
 			}
 		}
 		return result;
-	}
+	}*/
 
 	/**
 	 * Perform a complete depth first search of the given
@@ -113,12 +119,17 @@ public class Algorithms{
 		// TODO: Implement this method
 		Set<List<Vertex>> result = new HashSet<List<Vertex>>();
 		for(Vertex v : graph.getVertices()) {
-			result.add(Algorithms.BFS(graph, v));
+			Map<Vertex, Integer> bfs = Algorithms.BFS(graph, v);
+			List<Vertex> visitedVertices = new ArrayList<Vertex>();
+			for (Map.Entry<Vertex, Integer> entry : bfs.entrySet()) {
+				visitedVertices.add(entry.getKey());
+			}
+			result.add(visitedVertices);
 		}
 		return result; // this should be changed
 	}
 	
-	private static List<Vertex> BFS(Graph graph, Vertex v){
+	/*private static List<Vertex> BFS(Graph graph, Vertex v){
 		List<Vertex> result = new ArrayList<Vertex>();
 		result.add(v);
 		List<Vertex> queue = new ArrayList<Vertex>();
@@ -132,6 +143,24 @@ public class Algorithms{
 				}
 			}
 		}
+		return result;
+	}*/
+	
+	private static Map<Vertex, Integer> BFS(Graph graph, Vertex v){
+		Map<Vertex, Integer> result = new HashMap<Vertex, Integer>();
+		result.put(v, 0);
+		List<Vertex> queue = new ArrayList<Vertex>();
+		queue.add(v);
+		while(!queue.isEmpty()) {
+			Vertex w = queue.remove(0);
+			for(Vertex downstreamNeighbors : graph.getDownstreamNeighbors(w)) {
+				if(!result.containsKey(downstreamNeighbors)) {
+					queue.add(downstreamNeighbors);
+					result.put(downstreamNeighbors, result.get(w)+1);
+				}
+			}
+		}
+		System.out.println(result);
 		return result;
 	}
 
@@ -184,6 +213,31 @@ public class Algorithms{
 	public static int diameter(Graph graph) throws InfiniteDiameterException{
 		// TODO: Implement this method
 		int diameter = 0;
+		List<Vertex> notVisited = graph.getVertices();
+		while(!notVisited.isEmpty()) {
+			Vertex v = notVisited.get(0);
+			notVisited.remove(v);
+			Map<Vertex, Integer> bfs = Algorithms.BFS(graph, v);
+			int max = 0;
+			for(Map.Entry<Vertex, Integer> e : bfs.entrySet()) {
+				if(max<e.getValue()) {
+					max = e.getValue();
+				}
+			}
+			for(Map.Entry<Vertex, Integer> e : bfs.entrySet()) {
+				if(max>e.getValue()) {
+					notVisited.remove(e.getKey());
+				}
+			}
+			if(max>diameter) {
+				diameter=max;
+			}
+		}
+		if(diameter==0) {
+			throw new InfiniteDiameterException();
+		}
+		return diameter;
+		/*int diameter = 0;
 		for(int i=0; i<graph.getVertices().size(); i++) {
 			Vertex v = graph.getVertices().get(i);
 			for(int j=0; j<graph.getVertices().size(); j++) {
@@ -200,8 +254,10 @@ public class Algorithms{
 		if(diameter==0) {
 			throw new InfiniteDiameterException();
 		}
-		return diameter; // this should be changed
+		return diameter; */// this should be changed
 	}
+	
+	
 
 	/**
 	 * You should write the spec for this method

@@ -10,19 +10,15 @@ import java.util.*;
 import org.junit.Test;
 
 public class MP3Test {
+	
 	/*@Test
-	public void bla() throws IOException {
+	public void bla2() throws IOException, InfiniteDiameterException {
 
-		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 2);
+		System.out.println(":)");
 	}*/
 	
-	@Test
-	public void bla2() throws IOException {
-
-		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
-	}
-	
-	@Test
+	/*@Test
 	public void BreathFirstSearch() {
 		Graph testAdjacencyList = new AdjacencyListGraph ();
 		Vertex v1 = new Vertex ("v1");
@@ -51,9 +47,9 @@ public class MP3Test {
 
 		Set<List<Vertex>> bfs = new HashSet<List<Vertex>> ();
 		System.out.print(Algorithms.breadthFirstSearch(testAdjacencyList));
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void test1() throws NotFoundException{
 		Vertex v1 = new Vertex("v1");
 		Vertex v = new Vertex("v1");
@@ -87,6 +83,27 @@ public class MP3Test {
 		g1.addVertex(v4);
 		g1.addEdge(v2, v3);
 		System.out.println(Algorithms.shortestDistance(g1, v2, v4));
+	}*/
+	
+	@Test
+	public void test10() throws NotFoundException{
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		Vertex v3 = new Vertex("v3");
+		Vertex v4 = new Vertex("v4");
+		Vertex v5 = new Vertex("v5");
+		Graph g = new AdjacencyListGraph();
+		g.addVertex(v1);
+		g.addVertex(v2);
+		g.addVertex(v3);
+		g.addVertex(v4);
+		g.addVertex(v5);
+		g.addEdge(v1, v2);
+		g.addEdge(v2, v3);
+		g.addEdge(v3, v5);
+		g.addEdge(v1, v4);
+		g.addEdge(v4, v5);
+		assertEquals(2, Algorithms.shortestDistance(g,v1,v5));
 	}
 	
 	@Test(expected = InfiniteDiameterException.class)
@@ -119,6 +136,12 @@ public class MP3Test {
 		g1.addEdge(v3, v1);
 		assertEquals(2,Algorithms.diameter(g1));
 	}
+	/*@Test
+	public void bla() throws IOException {
+
+		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+		System.out.println(":(");
+	}*/
 	
 	
 }

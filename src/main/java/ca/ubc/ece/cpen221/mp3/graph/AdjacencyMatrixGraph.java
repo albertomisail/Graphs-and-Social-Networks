@@ -84,10 +84,10 @@ public class AdjacencyMatrixGraph implements Graph {
 	}
 	
 	public List<Vertex> getVertices(){
-		assert vertexList.size()==connectionMatrix.size();
+		/*assert vertexList.size()==connectionMatrix.size();
 		for(int i=0; i<vertexList.size(); i++) {
 			assert connectionMatrix.size()==connectionMatrix.get(i).size();
-		}
+		}*/
 		return AdjacencyMatrixGraph.cloneList(vertexList);
 	}
 	

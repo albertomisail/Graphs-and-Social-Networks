@@ -2,57 +2,78 @@ package ca.ubc.ece.cpen221.mp3.graph;
 import ca.ubc.ece.cpen221.mp3.staff.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AdjacencyListGraph implements Graph {
 // TODO: Implement this class
-	private List<Vertex> vertexList;
-	private List<List<Vertex>> edgeList;
+	private final Map<Vertex,List<Vertex>> adjacencyList;
+	/*private List<Vertex> vertexList;
+	private List<List<Vertex>> edgeList;*/
 	
 	public AdjacencyListGraph() {
-		this.vertexList = new ArrayList<Vertex>();
-		this.edgeList = new ArrayList<List<Vertex>>();
-		assert vertexList.size()==edgeList.size();
+		adjacencyList = new HashMap<Vertex, List<Vertex>>();
+		/*vertexList = new ArrayList<Vertex>();
+		edgeList = new ArrayList<List<Vertex>>();
+		assert vertexList.size()==edgeList.size();*/
 	}
 	
 	public void addVertex(Vertex v) {
-		vertexList.add(v);
+		adjacencyList.put(v,new ArrayList<Vertex>());
+		/*vertexList.add(v);
 		edgeList.add(new ArrayList<Vertex>());
-		assert vertexList.size()==edgeList.size();
+		assert vertexList.size()==edgeList.size();*/
 	}
 	
 	public void addEdge(Vertex v1, Vertex v2) {
-		int index = vertexList.indexOf(v1);
+		adjacencyList.get(v1).add(v2);
+		/*int index = vertexList.indexOf(v1);
 		edgeList.get(index).add(v2);
-		assert vertexList.size()==edgeList.size();
+		assert vertexList.size()==edgeList.size();*/
 	}
 	
 	public boolean edgeExists(Vertex v1, Vertex v2) {
+		return adjacencyList.get(v1).contains(v2);/*
 		int index = vertexList.indexOf(v1);
 		assert vertexList.size()==edgeList.size();
-		return edgeList.get(index).contains(v2);
+		return edgeList.get(index).contains(v2);*/
 	}
 	
 	public List<Vertex> getVertices(){
-		assert vertexList.size()==edgeList.size();
-		return AdjacencyListGraph.cloneList(vertexList);
+		List<Vertex> result = new ArrayList<Vertex>();
+		for (Map.Entry<Vertex, List<Vertex>> entry : adjacencyList.entrySet()) {
+			result.add(entry.getKey());
+		}
+		return result;
+		/*assert vertexList.size()==edgeList.size();
+		return AdjacencyListGraph.cloneList(vertexList);*/
 	}
 	
 	public List<Vertex> getDownstreamNeighbors(Vertex v){
-		int index = vertexList.indexOf(v);
+		return AdjacencyListGraph.cloneList(adjacencyList.get(v));
+		/*int index = vertexList.indexOf(v);
 		assert vertexList.size()==edgeList.size();
-		return AdjacencyListGraph.cloneList(edgeList.get(index));
+		return AdjacencyListGraph.cloneList(edgeList.get(index));*/
 	}
 	
 	public List<Vertex> getUpstreamNeighbors(Vertex v){
 		ArrayList<Vertex> result = new ArrayList<Vertex>();
+		for (Map.Entry<Vertex, List<Vertex>> entry : adjacencyList.entrySet()) {
+			if(entry.getValue().contains(v)) {
+				result.add(entry.getKey());
+			}
+		}
+		return result;
+		/*ArrayList<Vertex> result = new ArrayList<Vertex>();
 		for(int i=0; i<edgeList.size(); i++) {
 			if(edgeList.get(i).contains(v)) {
 				result.add(vertexList.get(i));
 			}
 		}
 		assert vertexList.size()==edgeList.size();
-		return result;
+		return result;*/
 	}
 	
 	private static List<Vertex> cloneList(List<Vertex> list){

@@ -136,6 +136,25 @@ public class MP3Test {
 		g1.addEdge(v3, v1);
 		assertEquals(2,Algorithms.diameter(g1));
 	}
+	
+	@Test
+	public void test11() throws NotFoundException{
+		Graph g = new AdjacencyListGraph();
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		Vertex v3 = new Vertex("v3");
+		Vertex v4 = new Vertex("v4");
+		Vertex v5 = new Vertex("v5");
+		g.addVertex(v1);
+		g.addVertex(v2);
+		g.addVertex(v3);
+		g.addVertex(v4);
+		g.addVertex(v5);
+		g.addEdge(v1, v4);
+		g.addEdge(v1, v2);
+		g.addEdge(v2, v3);
+		assertEquals(2,Algorithms.shortestDistance(g, v1, v3));
+	}
 	/*@Test
 	public void bla() throws IOException {
 

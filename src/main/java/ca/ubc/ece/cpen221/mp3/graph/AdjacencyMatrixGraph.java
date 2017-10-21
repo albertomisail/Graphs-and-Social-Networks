@@ -7,12 +7,12 @@ import java.util.List;
 
 public class AdjacencyMatrixGraph implements Graph {
 // TODO: Implement this class
-	private List<List<Boolean>> connectionMatrix;
-	private List<Vertex> vertexList;
+	private final List<List<Boolean>> connectionMatrix;
+	private final List<Vertex> vertexList;
 	
 	public AdjacencyMatrixGraph() {
-		this.connectionMatrix = new ArrayList<List<Boolean>>();
-		this.vertexList = new ArrayList<Vertex>();
+		connectionMatrix = new ArrayList<List<Boolean>>();
+		vertexList = new ArrayList<Vertex>();
 		assert vertexList.size()==connectionMatrix.size();
 		for(int i=0; i<vertexList.size(); i++) {
 			assert connectionMatrix.size()==connectionMatrix.get(i).size();

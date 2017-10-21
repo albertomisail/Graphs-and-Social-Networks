@@ -4,11 +4,55 @@ import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.*;
 
 import org.junit.Test;
 
 public class MP3Test {
+	/*@Test
+	public void bla() throws IOException {
+
+		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+	}*/
+	
+	@Test
+	public void bla2() throws IOException {
+
+		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
+	}
+	
+	@Test
+	public void BreathFirstSearch() {
+		Graph testAdjacencyList = new AdjacencyListGraph ();
+		Vertex v1 = new Vertex ("v1");
+		Vertex v2 = new Vertex ("v2");
+		Vertex v3 = new Vertex ("v3");
+		Vertex v4 = new Vertex ("v4");
+		Vertex v5 = new Vertex ("v5");
+		Vertex v6 = new Vertex ("v6");
+		Vertex v7 = new Vertex ("v7");
+		Vertex v8 = new Vertex ("v8");
+		testAdjacencyList.addVertex(v1);
+		testAdjacencyList.addVertex(v2);
+		testAdjacencyList.addVertex(v3);
+		testAdjacencyList.addVertex(v4);
+		testAdjacencyList.addVertex(v5);
+		testAdjacencyList.addVertex(v6);
+		testAdjacencyList.addVertex(v7);
+		testAdjacencyList.addVertex(v8);
+		testAdjacencyList.addEdge(v1, v2);
+		testAdjacencyList.addEdge(v1, v3);
+		testAdjacencyList.addEdge(v2, v4);
+		testAdjacencyList.addEdge(v2, v5);
+		testAdjacencyList.addEdge(v3, v6);
+		testAdjacencyList.addEdge(v3, v7);
+		testAdjacencyList.addEdge(v5, v8);
+
+		Set<List<Vertex>> bfs = new HashSet<List<Vertex>> ();
+		System.out.print(Algorithms.breadthFirstSearch(testAdjacencyList));
+	}
+	
 	@Test
 	public void test1() throws NotFoundException{
 		Vertex v1 = new Vertex("v1");

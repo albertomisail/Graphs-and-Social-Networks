@@ -2,13 +2,16 @@ package ca.ubc.ece.cpen221.mp3.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
-public class Algorithms {
+public class Algorithms{
 	
 	/**
 	 * *********************** Algorithms ****************************
@@ -69,8 +72,28 @@ public class Algorithms {
 	 */
 	public static Set<List<Vertex>> depthFirstSearch(Graph graph) {
 		// TODO: Implement this method
-		return null; // this should be changed
+		Set<List<Vertex>> result = new HashSet<List<Vertex>>();
+		for(Vertex v : graph.getVertices()) {
+			result.add(Algorithms.DFS(graph, v));
+		}
+		return result; // this should be changed
 
+	}
+	
+	private static List<Vertex> DFS(Graph graph, Vertex v){
+		Stack<Vertex> queue = new Stack<Vertex>();
+		List<Vertex> result = new ArrayList<Vertex>();
+		queue.push(v);
+		while(!queue.isEmpty()) {
+			Vertex w = queue.pop();
+			if(!result.contains(w)) {
+				result.add(w);
+				for(Vertex downstreamNeighbors : graph.getDownstreamNeighbors(w)) {
+					queue.push(downstreamNeighbors);
+				}
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -88,7 +111,28 @@ public class Algorithms {
 	 */
 	public static Set<List<Vertex>> breadthFirstSearch(Graph graph) {
 		// TODO: Implement this method
-		return null; // this should be changed
+		Set<List<Vertex>> result = new HashSet<List<Vertex>>();
+		for(Vertex v : graph.getVertices()) {
+			result.add(Algorithms.BFS(graph, v));
+		}
+		return result; // this should be changed
+	}
+	
+	private static List<Vertex> BFS(Graph graph, Vertex v){
+		List<Vertex> result = new ArrayList<Vertex>();
+		result.add(v);
+		List<Vertex> queue = new ArrayList<Vertex>();
+		queue.add(v);
+		while(!queue.isEmpty()) {
+			Vertex w = queue.remove(0);
+			for(Vertex downstreamNeighbors : graph.getDownstreamNeighbors(w)) {
+				if(!result.contains(downstreamNeighbors)) {
+					queue.add(downstreamNeighbors);
+					result.add(downstreamNeighbors);
+				}
+			}
+		}
+		return result;
 	}
 
 	/**

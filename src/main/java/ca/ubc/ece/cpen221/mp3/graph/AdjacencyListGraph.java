@@ -17,8 +17,8 @@ public class AdjacencyListGraph implements Graph {
 	
 	public AdjacencyListGraph() {
 		adjacencyList = new LinkedHashMap<Vertex, HashSet<Vertex>>();
-		/vertexList = new ArrayList<Vertex>();
-		edgeList = new ArrayList<List<Vertex>>();
+		/*vertexList = new ArrayList<Vertex>();
+		edgeList = new ArrayList<List<Vertex>>();*/
 		//assert vertexList.size()==edgeList.size();
 	}
 	
@@ -26,15 +26,15 @@ public class AdjacencyListGraph implements Graph {
 		if(!adjacencyList.containsKey(v)) {
 			adjacencyList.put(v,new HashSet<Vertex>());
 		}
-		vertexList.add(v);
-		edgeList.add(new ArrayList<Vertex>());
+		/*vertexList.add(v);
+		edgeList.add(new ArrayList<Vertex>());*/
 		//assert vertexList.size()==edgeList.size();*/
 	}
 	
 	public void addEdge(Vertex v1, Vertex v2) {
 		adjacencyList.get(v1).add(v2);
-		int index = vertexList.indexOf(v1);
-		edgeList.get(index).add(v2);
+		/*int index = vertexList.indexOf(v1);
+		edgeList.get(index).add(v2);*/
 		//assert vertexList.size()==edgeList.size();*/
 	}
 	

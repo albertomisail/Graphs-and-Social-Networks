@@ -137,17 +137,24 @@ public class Algorithms{
 	 */
 	 public static Vertex center(Graph graph) throws NoCenterException{
 		 // TODO: Implement this method
-		 Map<Vertex, Integer> eccentricities = new HashMap<Vertex, Integer>();
-		 for (int i = 0; i < graph.getVertices().size(); i++) {
-		 	Vertex v = graph.getVertices().get(i);
-			int eccentricity = calculateEccentricity(graph, v);
-			if(eccentricity!=0) {
-				eccentricities.put(v, eccentricity);
+		 Vertex result = graph.getVertices().get(0);
+		 int minEccentricity = graph.getVertices().size()+1;
+		 /*for(Vertex v:graph.getVertices()) {
+			 
+		 }
+		 Map<Vertex, Integer> eccentricities = new HashMap<Vertex, Integer>();*/
+		 for (Vertex v:graph.getVertices()) {
+		 	
+			int eccentricity = BFS(graph, v, minEccentricity);
+			if(eccentricity<minEccentricity&&eccentricity!=0) {
+				result = v;
+				minEccentricity = eccentricity;
 			}
 		 }
-		 if (eccentricities.size() == 0) {
+		 if (minEccentricity == graph.getVertices().size()+1) {
 				throw new NoCenterException();
 			}
+		 /*
 			int min_eccentricity = Integer.MAX_VALUE;
 			Vertex center = null;
 			for (Map.Entry<Vertex, Integer> entry : eccentricities.entrySet()) {
@@ -155,10 +162,41 @@ public class Algorithms{
 					min_eccentricity = entry.getValue();
 					center = entry.getKey();
 				}
-			}
-		 return center; // this should be changed
-	 } 
+			}*/
+		 return result; // this should be changed
+	 }
 	 
+	 private static int BFS(Graph graph, Vertex v, int max){
+			Map<Vertex, Integer> depths = new HashMap<Vertex, Integer>();
+			depths.put(v, 0);
+			List<Vertex> queue = new ArrayList<Vertex>();
+			queue.add(v);
+			int eccentricity = 0;
+			while(!queue.isEmpty()) {
+				Vertex w = queue.remove(0);
+				for(Vertex downstreamNeighbors : graph.getDownstreamNeighbors(w)) {
+					if(!depths.containsKey(downstreamNeighbors)) {
+						queue.add(downstreamNeighbors);
+						int value = depths.get(w)+1;
+						depths.put(downstreamNeighbors, value);
+						if(value>max) {
+							
+							return value;
+						}
+					}
+				}
+			}
+			
+				for(Map.Entry<Vertex, Integer> entry:depths.entrySet()) {
+					if(entry.getValue()>eccentricity) {
+						eccentricity = entry.getValue();
+					}
+				}
+				
+				return eccentricity;
+			
+		}
+/*	 
 public static boolean directed(Graph graph) {
 	boolean undirected = true;
 	 int i = 0;
@@ -177,7 +215,7 @@ public static boolean directed(Graph graph) {
 		 i++;
 	 }
 	 return undirected;
-}
+}*/
 	 
 	private static int calculateEccentricity(Graph graph, Vertex v){
 		int eccentricity = 0;
@@ -196,7 +234,13 @@ public static boolean directed(Graph graph) {
 	public static int diameter(Graph graph) throws InfiniteDiameterException{
 		// TODO: Implement this method
 		int diameter = 0;
-		List<Vertex> notVisited = graph.getVertices();
+		for(Vertex v : graph.getVertices()) {
+			int eccentricity = Algorithms.calculateEccentricity(graph, v);
+			if(eccentricity >diameter) {
+					diameter=eccentricity;
+			}
+		}
+		/*List<Vertex> notVisited = graph.getVertices();
 		while(!notVisited.isEmpty()) {
 			Vertex v = notVisited.get(0);
 			notVisited.remove(v);
@@ -215,12 +259,14 @@ public static boolean directed(Graph graph) {
 			if(max>diameter) {
 				diameter=max;
 			}
-		}
+		}*/
 		if(diameter==0) {
 			throw new InfiniteDiameterException();
 		}
 		return diameter;
 	}
+	
+	
 	
 	
 

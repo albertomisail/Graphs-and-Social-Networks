@@ -10,6 +10,36 @@ import java.util.*;
 import org.junit.Test;
 
 public class MP3Test {
+	
+	@Test
+	public void test0() throws InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 0");
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		Vertex v3 = new Vertex("v3");
+		Vertex v4 = new Vertex("v4");
+		Vertex v5 = new Vertex("v5");
+		Vertex v6 = new Vertex("v6");
+		
+		Graph g1 = new AdjacencyListGraph();
+		g1.addVertex(v1);
+		g1.addVertex(v2);
+		g1.addVertex(v3);
+		g1.addVertex(v4);
+		g1.addVertex(v5);
+		g1.addVertex(v6);
+		g1.addEdge(v1, v2);
+		g1.addEdge(v1, v4);
+		g1.addEdge(v2, v3);
+		g1.addEdge(v3, v4);
+		g1.addEdge(v4, v5);
+		g1.addEdge(v2, v6);
+		
+		assertEquals(3,Algorithms.diameter(g1));
+		
+		System.out.println(Algorithms.center(g1));
+		
+	}
 	@Test
 	public void test1() {
 		System.out.println("Test 1");
@@ -140,8 +170,8 @@ public class MP3Test {
 		assertEquals(2 , Algorithms.diameter(g1));
 		assertEquals(2 , Algorithms.diameter(g2));
 		
-		assertEquals(v5, Algorithms.center(g1));
-		assertEquals(v5, Algorithms.center(g2));
+		assertEquals(v2, Algorithms.center(g1));
+		assertEquals(v2, Algorithms.center(g2));
 	}
 	
 	@Test
@@ -188,23 +218,6 @@ public class MP3Test {
 		System.out.println(Algorithms.center(g2));
 	}
 	
-	
-	
-	@Test
-	public void test8() throws IOException, InfiniteDiameterException, NoCenterException{
-		System.out.println("Test 8");
-		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
-		System.out.println(Algorithms.diameter(g));
-		//assertEquals(true, Algorithms.directed(g));
-	}
-	
-	@Test
-	public void test9() throws IOException, InfiniteDiameterException, NoCenterException{
-		System.out.println("Test 9");
-		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
-		System.out.println(Algorithms.diameter(g));
-		//assertEquals(true, Algorithms.directed(g));
-	}
 
 	
 	@Test
@@ -269,7 +282,7 @@ public class MP3Test {
 		
 		System.out.println(Algorithms.center(g1));
 		
-		assertEquals(true, Algorithms.directed(g1));
+		//assertEquals(true, Algorithms.directed(g1));
 	}
 	
 	@Test
@@ -305,7 +318,22 @@ public class MP3Test {
 		
 		System.out.println(Algorithms.center(g1));
 		
-		assertEquals(false, Algorithms.directed(g1));
+		//assertEquals(false, Algorithms.directed(g1));
 	}	
+	
+	@Test
+	public void test8() throws IOException, InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 8");
+		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
+		//System.out.println(Algorithms.diameter(g));
+		//assertEquals(true, Algorithms.directed(g));
+	}
+	@Test
+	public void test9() throws IOException, InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 9");
+		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+		//System.out.println(Algorithms.diameter(g));
+		//assertEquals(true, Algorithms.directed(g));
+	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,41 +28,26 @@ public class Algorithms{
 	 * other methods should be implemented here.
 	 *
 	 * You should write the specs for this and all other methods.
+	 * 
+	 *Perform a complete breadth first search of the given graph starting at a
+	 *Returns the smallest x for which there is a path from a to b using x edges of the graph
+	 *If no path exists, it throws an exception
 	 *
-	 * @param graph
-	 * @param a
-	 * @param b
-	 * @return
+	 * @param graph requires: graph is not null
+	 * @param a requires: a is a vertex of graph
+	 * @param b requires: b is a vertex of graph
+	 * @return minimum x such that it is possible to get from a to b in a path formed with x different edges of the graph
+	 * 		   for any value y less than x it is impossible to get from a to b in a path formed with y different edges of the graph
+	 * @throws NotFoundException if there is no path that gets from a to b
 	 */
 	public static int shortestDistance(Graph graph, Vertex a, Vertex b) throws NotFoundException {
 		// TODO: Implement this method and others
-		/*if (a.equals(b)) {
-			return 0;
-		} else {
-			return shortestDistance(graph, a, b, 1);
-		}*/
 		Map<Vertex, Integer> distances = Algorithms.BFS(graph, a);
 		if(!distances.containsKey(b)) {
 			throw new NotFoundException();
 		}
 		return distances.get(b);
 	}
-
-	/*private static int shortestDistance(Graph graph, Vertex a, Vertex b, int k) throws NotFoundException {
-		List<Vertex> downstreamNeighbors = graph.getDownstreamNeighbors(a);
-		int result = -1;// ask
-		if (k >= graph.getVertices().size() || downstreamNeighbors.size()==0) {
-			throw new NotFoundException();
-		}
-		if (downstreamNeighbors.contains(b)) {
-			result = k;
-		} else {
-			for (int i = 0; i < downstreamNeighbors.size(); i++) {
-				result = shortestDistance(graph, downstreamNeighbors.get(i), b, k + 1);
-			}
-		}
-		return result;
-	}*/
 
 	/**
 	 * Perform a complete depth first search of the given
@@ -73,11 +59,11 @@ public class Algorithms{
 	 * returned set should correspond to the number of graph
 	 * vertices).
 	 *
-	 * @param
-	 * @return
+	 * @param graph requires: graph is not null
+	 * @return a set of list of vertices. Each list represents the vertices visited by carrying a DFS in each of graph vertices
 	 */
 	public static Set<List<Vertex>> depthFirstSearch(Graph graph) {
-		// TODO: Implement this method
+		//
 		Set<List<Vertex>> result = new HashSet<List<Vertex>>();
 		for(Vertex v : graph.getVertices()) {
 			result.add(Algorithms.DFS(graph, v));
@@ -112,7 +98,7 @@ public class Algorithms{
 	 * returned set should correspond to the number of graph
 	 * vertices).
 	 *
-	 * @param
+	 * @param 
 	 * @return
 	 */
 	public static Set<List<Vertex>> breadthFirstSearch(Graph graph) {
@@ -129,25 +115,8 @@ public class Algorithms{
 		return result; // this should be changed
 	}
 	
-	/*private static List<Vertex> BFS(Graph graph, Vertex v){
-		List<Vertex> result = new ArrayList<Vertex>();
-		result.add(v);
-		List<Vertex> queue = new ArrayList<Vertex>();
-		queue.add(v);
-		while(!queue.isEmpty()) {
-			Vertex w = queue.remove(0);
-			for(Vertex downstreamNeighbors : graph.getDownstreamNeighbors(w)) {
-				if(!result.contains(downstreamNeighbors)) {
-					queue.add(downstreamNeighbors);
-					result.add(downstreamNeighbors);
-				}
-			}
-		}
-		return result;
-	}*/
-	
 	private static Map<Vertex, Integer> BFS(Graph graph, Vertex v){
-		Map<Vertex, Integer> result = new HashMap<Vertex, Integer>();
+		Map<Vertex, Integer> result = new LinkedHashMap<Vertex, Integer>();
 		result.put(v, 0);
 		List<Vertex> queue = new ArrayList<Vertex>();
 		queue.add(v);
@@ -160,7 +129,6 @@ public class Algorithms{
 				}
 			}
 		}
-		System.out.println(result);
 		return result;
 	}
 
@@ -189,19 +157,34 @@ public class Algorithms{
 				}
 			}
 		 return center; // this should be changed
+	 } 
+	 
+public static boolean directed(Graph graph) {
+	boolean undirected = true;
+	 int i = 0;
+	 while(undirected&&i<graph.getVertices().size()) {
+		 Vertex v = graph.getVertices().get(i);
+		 int j = i;
+		 while(j<graph.getVertices().size()) {
+			 Vertex w = graph.getVertices().get(j);
+			 System.out.println(v);
+			 System.out.println(w);
+			 if(graph.edgeExists(v, w)!=graph.edgeExists(w, v)) {
+				 undirected = false;
+			 }
+			 j++;
+		 }
+		 i++;
 	 }
-		 
-	public static int calculateEccentricity(Graph graph, Vertex v){
+	 return undirected;
+}
+	 
+	private static int calculateEccentricity(Graph graph, Vertex v){
 		int eccentricity = 0;
-		for (int i = 0; i < graph.getVertices().size(); i++) {
-			Vertex w = graph.getVertices().get(i);
-			try {
-				int distance = shortestDistance(graph, v, w);
-				if (distance > eccentricity) {
-					eccentricity = distance;
-				}
-			}catch(NotFoundException e) {
-				
+		Map<Vertex, Integer> eccentricities = Algorithms.BFS(graph, v);
+		for(Map.Entry<Vertex, Integer> entry : eccentricities.entrySet()) {
+			if(entry.getValue()>eccentricity) {
+				eccentricity=entry.getValue();
 			}
 		}
 		return eccentricity;
@@ -237,24 +220,6 @@ public class Algorithms{
 			throw new InfiniteDiameterException();
 		}
 		return diameter;
-		/*int diameter = 0;
-		for(int i=0; i<graph.getVertices().size(); i++) {
-			Vertex v = graph.getVertices().get(i);
-			for(int j=0; j<graph.getVertices().size(); j++) {
-				Vertex w = graph.getVertices().get(j);
-				try{
-					if(diameter<Algorithms.shortestDistance(graph, v, w)) {
-						diameter = Algorithms.shortestDistance(graph, v, w);
-					}
-				}catch(NotFoundException e) {
-					
-				}
-			}
-		}
-		if(diameter==0) {
-			throw new InfiniteDiameterException();
-		}
-		return diameter; */// this should be changed
 	}
 	
 	

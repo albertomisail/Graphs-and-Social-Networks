@@ -10,157 +10,302 @@ import java.util.*;
 import org.junit.Test;
 
 public class MP3Test {
-	
-	/*@Test
-	public void bla2() throws IOException, InfiniteDiameterException {
-
-		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 2);
-		System.out.println(":)");
-	}*/
-	
-	/*@Test
-	public void BreathFirstSearch() {
-		Graph testAdjacencyList = new AdjacencyListGraph ();
-		Vertex v1 = new Vertex ("v1");
-		Vertex v2 = new Vertex ("v2");
-		Vertex v3 = new Vertex ("v3");
-		Vertex v4 = new Vertex ("v4");
-		Vertex v5 = new Vertex ("v5");
-		Vertex v6 = new Vertex ("v6");
-		Vertex v7 = new Vertex ("v7");
-		Vertex v8 = new Vertex ("v8");
-		testAdjacencyList.addVertex(v1);
-		testAdjacencyList.addVertex(v2);
-		testAdjacencyList.addVertex(v3);
-		testAdjacencyList.addVertex(v4);
-		testAdjacencyList.addVertex(v5);
-		testAdjacencyList.addVertex(v6);
-		testAdjacencyList.addVertex(v7);
-		testAdjacencyList.addVertex(v8);
-		testAdjacencyList.addEdge(v1, v2);
-		testAdjacencyList.addEdge(v1, v3);
-		testAdjacencyList.addEdge(v2, v4);
-		testAdjacencyList.addEdge(v2, v5);
-		testAdjacencyList.addEdge(v3, v6);
-		testAdjacencyList.addEdge(v3, v7);
-		testAdjacencyList.addEdge(v5, v8);
-
-		Set<List<Vertex>> bfs = new HashSet<List<Vertex>> ();
-		System.out.print(Algorithms.breadthFirstSearch(testAdjacencyList));
-	}*/
-	
-	/*@Test
-	public void test1() throws NotFoundException{
+	@Test
+	public void test1() {
+		System.out.println("Test 1");
 		Vertex v1 = new Vertex("v1");
-		Vertex v = new Vertex("v1");
-		Vertex v2 = new Vertex("v2");
-		Vertex v3 = new Vertex("v3");
-		Vertex v4 = new Vertex("v4");
-		Graph g1 = new AdjacencyListGraph();
-		g1.addVertex(v1);
-		g1.addVertex(v);
-		g1.addVertex(v2);
-		g1.addVertex(v3);
-		g1.addVertex(v4);
-		g1.addEdge(v1, v2);
-		g1.addEdge(v2, v3);
-		g1.addEdge(v2, v4);
-		assertEquals(0, Algorithms.shortestDistance(g1, v1, v));
-		assertEquals(0, Algorithms.shortestDistance(g1, v1, v1));
-		assertEquals(1, Algorithms.shortestDistance(g1, v1, v2));
-		assertEquals(2, Algorithms.shortestDistance(g1, v1, v3));
-		assertEquals(2, Algorithms.shortestDistance(g1, v1, v4));
+		Graph a = new AdjacencyMatrixGraph();
+		Graph b = new AdjacencyListGraph();
+		System.out.println(Algorithms.breadthFirstSearch(a));
+		System.out.println(Algorithms.breadthFirstSearch(b));
+		System.out.println(Algorithms.depthFirstSearch(a));
+		System.out.println(Algorithms.depthFirstSearch(b));
+		a.addVertex(v1);
+		b.addVertex(v1);
+		System.out.println(Algorithms.breadthFirstSearch(a));
+		System.out.println(Algorithms.breadthFirstSearch(b));
+		System.out.println(Algorithms.depthFirstSearch(a));
+		System.out.println(Algorithms.depthFirstSearch(b));
+		try {
+			Algorithms.diameter(a);
+		}
+		catch(InfiniteDiameterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.diameter(b);
+		}
+		catch(InfiniteDiameterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.center(a);
+		}
+		catch(NoCenterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.center(b);
+		}
+		catch(NoCenterException e) {
+			System.out.println("Pass");
+		}
 	}
 	
-	@Test(expected = NotFoundException.class)
-	public void test2() throws NotFoundException{
+	@Test
+	public void test2() {
+		System.out.println("Test 2");
+		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
 		Vertex v3 = new Vertex("v3");
-		Vertex v4 = new Vertex("v4");
-		Graph g1 = new AdjacencyListGraph();
-		g1.addVertex(v2);
-		g1.addVertex(v3);
-		g1.addVertex(v4);
-		g1.addEdge(v2, v3);
-		System.out.println(Algorithms.shortestDistance(g1, v2, v4));
-	}*/
+		Graph g = new AdjacencyMatrixGraph();
+		Graph h = new AdjacencyListGraph();
+		g.addVertex(v1);
+		g.addVertex(v2);
+		g.addVertex(v3);
+		h.addVertex(v1);
+		h.addVertex(v2);
+		h.addVertex(v3);
+		System.out.println(Algorithms.breadthFirstSearch(g));
+		System.out.println(Algorithms.breadthFirstSearch(h));
+		System.out.println(Algorithms.depthFirstSearch(g));
+		System.out.println(Algorithms.depthFirstSearch(h));
+		try {
+			Algorithms.diameter(g);
+		}
+		catch(InfiniteDiameterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.diameter(h);
+		}
+		catch(InfiniteDiameterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.center(g);
+		}
+		catch(NoCenterException e) {
+			System.out.println("Pass");
+		}
+		try {
+			Algorithms.center(h);
+		}
+		catch(NoCenterException e) {
+			System.out.println("Pass");
+		}		
+	}
 	
 	@Test
-	public void test10() throws NotFoundException{
+	public void test3() throws InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 3");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
 		Vertex v3 = new Vertex("v3");
 		Vertex v4 = new Vertex("v4");
 		Vertex v5 = new Vertex("v5");
-		Graph g = new AdjacencyListGraph();
-		g.addVertex(v1);
-		g.addVertex(v2);
-		g.addVertex(v3);
-		g.addVertex(v4);
-		g.addVertex(v5);
-		g.addEdge(v1, v2);
-		g.addEdge(v2, v3);
-		g.addEdge(v3, v5);
-		g.addEdge(v1, v4);
-		g.addEdge(v4, v5);
-		assertEquals(2, Algorithms.shortestDistance(g,v1,v5));
-	}
-	
-	@Test(expected = InfiniteDiameterException.class)
-	public void test3() throws InfiniteDiameterException{
-		Vertex v1 = new Vertex("v1");
+		Vertex v6 = new Vertex("v6");
+		
 		Graph g1 = new AdjacencyMatrixGraph();
 		g1.addVertex(v1);
-		Algorithms.diameter(g1);
+		g1.addVertex(v2);
+		g1.addVertex(v3);
+		g1.addVertex(v4);
+		g1.addVertex(v5);
+		g1.addVertex(v6);
+		g1.addEdge(v1, v2);
+		g1.addEdge(v1, v3);
+		g1.addEdge(v2, v3);
+		g1.addEdge(v2, v4);
+		g1.addEdge(v5, v6);
+		
+		Graph g2 = new AdjacencyListGraph();
+		g2.addVertex(v1);
+		g2.addVertex(v2);
+		g2.addVertex(v3);
+		g2.addVertex(v4);
+		g2.addVertex(v5);
+		g2.addVertex(v6);
+		g2.addEdge(v1, v2);
+		g2.addEdge(v1, v3);
+		g2.addEdge(v2, v3);
+		g2.addEdge(v2, v4);
+		g2.addEdge(v5, v6);
+		
+		System.out.println(Algorithms.breadthFirstSearch(g1));
+		System.out.println(Algorithms.breadthFirstSearch(g2));
+		System.out.println(Algorithms.depthFirstSearch(g1));
+		System.out.println(Algorithms.depthFirstSearch(g2));
+		
+		assertEquals(2 , Algorithms.diameter(g1));
+		assertEquals(2 , Algorithms.diameter(g2));
+		
+		assertEquals(v5, Algorithms.center(g1));
+		assertEquals(v5, Algorithms.center(g2));
 	}
 	
-	@Test(expected = InfiniteDiameterException.class)
-	public void test4() throws InfiniteDiameterException{
+	@Test
+	public void test4() throws InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 4");
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		Vertex v3 = new Vertex("v3");
+		Vertex v4 = new Vertex("v4");
+		
 		Graph g1 = new AdjacencyMatrixGraph();
-		Algorithms.diameter(g1);
+		g1.addVertex(v1);
+		g1.addVertex(v2);
+		g1.addVertex(v3);
+		g1.addVertex(v4);
+		g1.addEdge(v1, v2);
+		g1.addEdge(v1, v3);
+		g1.addEdge(v3, v1);
+		g1.addEdge(v2, v3);
+		g1.addEdge(v3, v4);
+		g1.addEdge(v4, v2);
+		
+		Graph g2 = new AdjacencyListGraph();
+		g2.addVertex(v1);
+		g2.addVertex(v2);
+		g2.addVertex(v3);
+		g2.addVertex(v4);
+		g2.addEdge(v1, v2);
+		g2.addEdge(v1, v3);
+		g2.addEdge(v3, v1);
+		g2.addEdge(v2, v3);
+		g2.addEdge(v3, v4);
+		g2.addEdge(v4, v2);
+		
+		System.out.println(Algorithms.breadthFirstSearch(g1));
+		System.out.println(Algorithms.breadthFirstSearch(g2));
+		System.out.println(Algorithms.depthFirstSearch(g1));
+		System.out.println(Algorithms.depthFirstSearch(g2));
+		
+		assertEquals(3 , Algorithms.diameter(g1));
+		assertEquals(3 , Algorithms.diameter(g2));
+		
+		System.out.println(Algorithms.center(g1));
+		System.out.println(Algorithms.center(g2));
 	}
+	
+	
+	
+	@Test
+	public void test8() throws IOException, InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 8");
+		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+		System.out.println(Algorithms.diameter(g));
+		//assertEquals(true, Algorithms.directed(g));
+	}
+	
+	@Test
+	public void test9() throws IOException, InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 9");
+		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
+		System.out.println(Algorithms.diameter(g));
+		//assertEquals(true, Algorithms.directed(g));
+	}
+
 	
 	@Test
 	public void test5() throws InfiniteDiameterException, NoCenterException{
-		Graph g1 = new AdjacencyMatrixGraph();
+		System.out.println("Test 5");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
 		Vertex v3 = new Vertex("v3");
+		
+		Graph g1 = new AdjacencyMatrixGraph();
+		g1.addVertex(v1);
+		g1.addVertex(v2);
+		g1.addVertex(v3);
+		g1.addEdge(v2, v1);
+		g1.addEdge(v1, v3);
+		
+		Graph g2 = new AdjacencyListGraph();
+		g2.addVertex(v1);
+		g2.addVertex(v2);
+		g2.addVertex(v3);
+		g2.addEdge(v2, v1);
+		g2.addEdge(v1, v3);
+		
+		System.out.println(Algorithms.breadthFirstSearch(g1));
+		System.out.println(Algorithms.breadthFirstSearch(g2));
+		System.out.println(Algorithms.depthFirstSearch(g1));
+		System.out.println(Algorithms.depthFirstSearch(g2));
+		
+		assertEquals(2 , Algorithms.diameter(g1));
+		assertEquals(2 , Algorithms.diameter(g2));
+		
+		assertEquals(v1, Algorithms.center(g1));
+		assertEquals(v1, Algorithms.center(g2));	
+		
+	}
+	
+	@Test
+	public void test6() throws InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 6");
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		
+		Graph g1 = new AdjacencyMatrixGraph();
+		g1.addVertex(v1);
+		g1.addVertex(v2);
+		g1.addEdge(v1, v2);
+		g1.addEdge(v2, v1);
+		
+		Graph g2 = new AdjacencyListGraph();
+		g2.addVertex(v1);
+		g2.addVertex(v2);
+		g2.addEdge(v1, v2);
+		g2.addEdge(v2, v1);
+		
+		System.out.println(Algorithms.breadthFirstSearch(g1));
+		System.out.println(Algorithms.breadthFirstSearch(g2));
+		System.out.println(Algorithms.depthFirstSearch(g1));
+		System.out.println(Algorithms.depthFirstSearch(g2));
+		
+		assertEquals(1 , Algorithms.diameter(g1));
+		assertEquals(1 , Algorithms.diameter(g2));
+		
+		System.out.println(Algorithms.center(g1));
+		
+		assertEquals(true, Algorithms.directed(g1));
+	}
+	
+	@Test
+	public void test7() throws InfiniteDiameterException, NoCenterException{
+		System.out.println("Test 7");
+		Vertex v1 = new Vertex("v1");
+		Vertex v2 = new Vertex("v2");
+		Vertex v3 = new Vertex("v3");
+		
+		Graph g1 = new AdjacencyMatrixGraph();
 		g1.addVertex(v1);
 		g1.addVertex(v2);
 		g1.addVertex(v3);
 		g1.addEdge(v1, v2);
-		assertEquals(1,Algorithms.diameter(g1));
-		assertEquals(v1,Algorithms.center(g1));
 		g1.addEdge(v2, v3);
 		g1.addEdge(v3, v1);
-		assertEquals(2,Algorithms.diameter(g1));
-	}
-	
-	@Test
-	public void test11() throws NotFoundException{
-		Graph g = new AdjacencyListGraph();
-		Vertex v1 = new Vertex("v1");
-		Vertex v2 = new Vertex("v2");
-		Vertex v3 = new Vertex("v3");
-		Vertex v4 = new Vertex("v4");
-		Vertex v5 = new Vertex("v5");
-		g.addVertex(v1);
-		g.addVertex(v2);
-		g.addVertex(v3);
-		g.addVertex(v4);
-		g.addVertex(v5);
-		g.addEdge(v1, v4);
-		g.addEdge(v1, v2);
-		g.addEdge(v2, v3);
-		assertEquals(2,Algorithms.shortestDistance(g, v1, v3));
-	}
-	/*@Test
-	public void bla() throws IOException {
-
-		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
-		System.out.println(":(");
-	}*/
-	
+		
+		Graph g2 = new AdjacencyListGraph();
+		g2.addVertex(v1);
+		g2.addVertex(v2);
+		g2.addVertex(v3);
+		g2.addEdge(v1, v2);
+		g2.addEdge(v2, v3);
+		g2.addEdge(v3, v1);
+		
+		System.out.println(Algorithms.breadthFirstSearch(g1));
+		System.out.println(Algorithms.breadthFirstSearch(g2));
+		System.out.println(Algorithms.depthFirstSearch(g1));
+		System.out.println(Algorithms.depthFirstSearch(g2));
+		
+		assertEquals(2 , Algorithms.diameter(g1));
+		assertEquals(2 , Algorithms.diameter(g2));
+		
+		System.out.println(Algorithms.center(g1));
+		
+		assertEquals(false, Algorithms.directed(g1));
+	}	
 	
 }

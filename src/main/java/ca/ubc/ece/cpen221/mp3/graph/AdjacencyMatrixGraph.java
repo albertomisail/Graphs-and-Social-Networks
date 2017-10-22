@@ -20,15 +20,17 @@ public class AdjacencyMatrixGraph implements Graph {
 	}
 	
 	public void addVertex(Vertex v) {
-		vertexList.add(v);
-		for(int i=0; i<connectionMatrix.size(); i++) {
-			connectionMatrix.get(i).add(false);
+		if(!vertexList.contains(v)) {
+			vertexList.add(v);
+			for(int i=0; i<connectionMatrix.size(); i++) {
+				connectionMatrix.get(i).add(false);
+			}
+			List<Boolean> column = new ArrayList<Boolean>();
+			for(int i=0; i<vertexList.size(); i++) {
+				column.add(false);
+			}
+			connectionMatrix.add(column);
 		}
-		List<Boolean> column = new ArrayList<Boolean>();
-		for(int i=0; i<vertexList.size(); i++) {
-			column.add(false);
-		}
-		connectionMatrix.add(column);
 		assert vertexList.size()==connectionMatrix.size();
 		for(int i=0; i<vertexList.size(); i++) {
 			assert connectionMatrix.size()==connectionMatrix.get(i).size();

@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -152,12 +154,18 @@ public class Algorithms {
 	 */
 	private static Map<Vertex, Integer> bfsForVertex(Graph graph, Vertex start) {
 		Map<Vertex, Integer> result = new LinkedHashMap<Vertex, Integer>();
+		//int depth = 0;
 		result.put(start, 0);
-		List<Vertex> queue = new ArrayList<Vertex>();
+		Queue<Vertex> queue = new LinkedList<Vertex>();
 		queue.add(start);
+		//maybe just hashset
+		
+		//Set<Vertex> nextLevel = new LinkedHashSet<Vertex>()
+		//while(!queue.isEmpty()){
 		while (!queue.isEmpty()) {
-			Vertex vertex = queue.remove(0);
+			Vertex vertex = queue.remove();
 			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
+				//nextLevel.add(downstreamNeighbors);
 				if (!result.containsKey(downstreamNeighbors)) {
 					queue.add(downstreamNeighbors);
 					result.put(downstreamNeighbors, result.get(vertex) + 1);

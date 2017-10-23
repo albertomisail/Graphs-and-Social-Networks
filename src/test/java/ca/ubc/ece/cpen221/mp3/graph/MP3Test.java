@@ -288,15 +288,15 @@ public class MP3Test {
 		System.out.println("Test 8");
 		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
 		System.out.println(g.getVertices().size());
-		//System.out.println(Algorithms.diameter(g));
-		//System.out.println(Algorithms.center(g));
+		System.out.println(Algorithms.diameter(g));
+		System.out.println(Algorithms.center(g));
 	}
 	
 	@Test
 	public void test9() throws IOException, InfiniteDiameterException {
 		System.out.println("Test 9");
 		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
-		//System.out.println(Algorithms.diameter(g));
+		System.out.println(Algorithms.diameter(g));
 	}
 	
 	@Test

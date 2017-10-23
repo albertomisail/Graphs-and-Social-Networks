@@ -1,7 +1,6 @@
 package ca.ubc.ece.cpen221.mp3.graph;
 
-import ca.ubc.ece.cpen221.mp3.graph.AdjacencyListGraph;
-import ca.ubc.ece.cpen221.mp3.graph.AdjacencyMatrixGraph;
+import ca.ubc.ece.cpen221.mp3.graph.*;
 import ca.ubc.ece.cpen221.mp3.graph.Algorithms;
 import ca.ubc.ece.cpen221.mp3.graph.InfiniteDiameterException;
 import ca.ubc.ece.cpen221.mp3.graph.NotFoundException;

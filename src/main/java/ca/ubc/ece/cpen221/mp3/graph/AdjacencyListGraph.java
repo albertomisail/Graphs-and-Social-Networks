@@ -12,29 +12,30 @@ import java.util.Set;
 
 public class AdjacencyListGraph implements Graph {
 	// TODO: Implement this class
+	/**
+	 * Rep invariant: If a is a vertex of graph and there is an edge from a to b,
+	 * then b is a vertex of the graph: If a vertex v is an element of any of the
+	 * sets of the value set of adjacenyList, v is part of the key set of
+	 * adjacencyList. There is no edge that goes from a vertex to itself: A vertex v
+	 * cannot be contained by the set s, where s is the value of the entry whose key
+	 * is v
+	 */
 	private final Map<Vertex, HashSet<Vertex>> adjacencyList;
 
 	public AdjacencyListGraph() {
 		adjacencyList = new LinkedHashMap<Vertex, HashSet<Vertex>>();
-		// assert vertexList.size()==edgeList.size();
 	}
 
 	public void addVertex(Vertex v) {
-		if (!adjacencyList.containsKey(v)) {
-			adjacencyList.put(v, new HashSet<Vertex>());
-		}
-		// assert vertexList.size()==edgeList.size();*/
+		adjacencyList.put(v, new HashSet<Vertex>());
 	}
 
 	public void addEdge(Vertex v1, Vertex v2) {
 		adjacencyList.get(v1).add(v2);
-		// assert vertexList.size()==edgeList.size();*/
 	}
 
 	public boolean edgeExists(Vertex v1, Vertex v2) {
-		return adjacencyList.get(v1).contains(v2);/*
-													 * return edgeList.get(index).contains(v2);
-													 */
+		return adjacencyList.get(v1).contains(v2);
 	}
 
 	public List<Vertex> getVertices() {
@@ -43,7 +44,6 @@ public class AdjacencyListGraph implements Graph {
 			result.add(entry.getKey());
 		}
 		return result;
-		/* assert vertexList.size()==edgeList.size(); */
 	}
 
 	public List<Vertex> getDownstreamNeighbors(Vertex v) {
@@ -53,10 +53,6 @@ public class AdjacencyListGraph implements Graph {
 			result.add(neighbor);
 		}
 		return result;
-		/*
-		 * assert vertexList.size()==edgeList.size(); return
-		 * AdjacencyListGraph.cloneList(edgeList.get(index));
-		 */
 	}
 
 	public List<Vertex> getUpstreamNeighbors(Vertex v) {
@@ -66,18 +62,6 @@ public class AdjacencyListGraph implements Graph {
 				result.add(entry.getKey());
 			}
 		}
-		return result;
-		/*
-		 * assert vertexList.size()==edgeList.size(); return result;
-		 */
-	}
-
-	private static List<Vertex> cloneList(List<Vertex> list) {
-		List<Vertex> result = new ArrayList<Vertex>();
-		if (list.size() == 0) {
-			return result;
-		}
-		result.addAll(list);
 		return result;
 	}
 }

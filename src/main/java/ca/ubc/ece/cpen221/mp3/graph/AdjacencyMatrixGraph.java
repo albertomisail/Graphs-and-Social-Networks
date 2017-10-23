@@ -8,51 +8,62 @@ import java.util.List;
 
 public class AdjacencyMatrixGraph implements Graph {
 	// TODO: Implement this class
+	/**
+	 * Rep invariant: If a is a vertex of graph and there is an edge from a to b,
+	 * then b is a vertex of the graph: The size of vertex list is equal to the size
+	 * of connection matrix The size of each list of connection matrix is equal to
+	 * the size of connection matrix There is no edge that goes from a vertex to
+	 * itself: If i is any integer between 0 and connectionMatrix.size()-1
+	 * (included) connectionMatrix.get(i).get(i) is false
+	 */
 	private final List<List<Boolean>> connectionMatrix;
 	private final List<Vertex> vertexList;
 
 	public AdjacencyMatrixGraph() {
 		connectionMatrix = new ArrayList<List<Boolean>>();
 		vertexList = new ArrayList<Vertex>();
-		assert vertexList.size() == connectionMatrix.size();
-		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
-		}
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 	}
 
 	public void addVertex(Vertex v) {
-		if (!vertexList.contains(v)) {
-			vertexList.add(v);
-			for (int i = 0; i < connectionMatrix.size(); i++) {
-				connectionMatrix.get(i).add(false);
-			}
-			List<Boolean> column = new ArrayList<Boolean>();
-			for (int i = 0; i < vertexList.size(); i++) {
-				column.add(false);
-			}
-			connectionMatrix.add(column);
+		vertexList.add(v);
+		for (int i = 0; i < connectionMatrix.size(); i++) {
+			connectionMatrix.get(i).add(false);
 		}
-		assert vertexList.size() == connectionMatrix.size();
+		List<Boolean> column = new ArrayList<Boolean>();
 		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
+			column.add(false);
 		}
+		connectionMatrix.add(column);
+
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 	}
 
 	public void addEdge(Vertex v1, Vertex v2) {
 		List<Boolean> column = connectionMatrix.get(vertexList.indexOf(v1));
 		column.set(vertexList.indexOf(v2), true);
-		assert vertexList.size() == connectionMatrix.size();
-		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
-		}
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 	}
 
 	public boolean edgeExists(Vertex v1, Vertex v2) {
 		List<Boolean> column = connectionMatrix.get(vertexList.indexOf(v1));
-		assert vertexList.size() == connectionMatrix.size();
-		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
-		}
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 		return column.get(vertexList.indexOf(v2));
 	}
 
@@ -64,10 +75,11 @@ public class AdjacencyMatrixGraph implements Graph {
 				result.add(vertexList.get(i));
 			}
 		}
-		assert vertexList.size() == connectionMatrix.size();
-		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
-		}
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 		return result;
 	}
 
@@ -79,10 +91,11 @@ public class AdjacencyMatrixGraph implements Graph {
 				result.add(vertexList.get(i));
 			}
 		}
-		assert vertexList.size() == connectionMatrix.size();
-		for (int i = 0; i < vertexList.size(); i++) {
-			assert connectionMatrix.size() == connectionMatrix.get(i).size();
-		}
+		/*
+		 * assert vertexList.size() == connectionMatrix.size(); for (int i = 0; i <
+		 * vertexList.size(); i++) { assert connectionMatrix.size() ==
+		 * connectionMatrix.get(i).size(); }
+		 */
 		return result;
 	}
 

@@ -1,4 +1,4 @@
-package ca.ubc.ece.cpen221.mp3.tests;
+package ca.ubc.ece.cpen221.mp3.graph;
 
 import ca.ubc.ece.cpen221.mp3.graph.AdjacencyListGraph;
 import ca.ubc.ece.cpen221.mp3.graph.AdjacencyMatrixGraph;

@@ -174,6 +174,28 @@ public class Algorithms {
 		}
 		return result;
 	}
+	
+	public static int maxDepth(Graph graph, Vertex start) {
+		int depth = 0;
+		Queue<Vertex> queue = new LinkedList<Vertex>();
+		Queue<Integer> level = new LinkedList<Integer>();
+		Set<Vertex> visited = new HashSet<Vertex>();
+		queue.add(start);
+		level.add(0);
+		visited.add(start);		
+		while (!queue.isEmpty()) {
+			Vertex vertex = queue.remove();
+			if(depth <= level.peek())
+				depth = level.remove();
+			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
+				if(visited.add(downstreamNeighbors)) {
+					queue.add(downstreamNeighbors);
+					level.add(depth+1);
+				}
+			}
+		}
+		return depth;
+	}
 
 	/**
 	 * Calculates the eccentricity for each vertex of the graph. Returns a vertex
@@ -265,7 +287,12 @@ public class Algorithms {
 	public static int diameter(Graph graph) throws InfiniteDiameterException {
 		// TODO: Implement this method
 		int diameter = 0;
+		int count = 0;
 		for (Vertex vertex : graph.getVertices()) {
+			/*count++;
+			if(count%100==0) {
+				System.out.println(count);
+			}*/
 			int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
 			if (eccentricity > diameter) {
 				diameter = eccentricity;

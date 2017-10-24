@@ -51,7 +51,7 @@ public class AdjacencyListGraph implements Graph {
 		List<Vertex> result = new ArrayList<Vertex>();
 		for (Vertex neighbor : downstream) {
 			result.add(neighbor);
-		}
+		}		
 		return result;
 	}
 

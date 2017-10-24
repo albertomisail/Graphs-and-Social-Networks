@@ -40,7 +40,7 @@ public class MP3Test {
 		g1.addEdge(v3, v4);
 		g1.addEdge(v4, v5);
 		g1.addEdge(v2, v6);
-
+		assertEquals(2, Algorithms.maxDepth(g1, v1));
 		assertEquals(3, Algorithms.diameter(g1));
 
 	}
@@ -291,13 +291,13 @@ public class MP3Test {
 		System.out.println(Algorithms.diameter(g));
 		System.out.println(Algorithms.center(g));
 	}
-	
+	/*
 	@Test
 	public void test9() throws IOException, InfiniteDiameterException {
 		System.out.println("Test 9");
 		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
 		System.out.println(Algorithms.diameter(g));
-	}
+	}*/
 	
 	@Test
 	public void test10() throws InfiniteDiameterException {

@@ -41,41 +41,44 @@ public class Parsers {
 		Map<String, List<String>> conections = new HashMap<String, List<String>>();
 		while (sc.hasNext()) {
 			String line = sc.nextLine();
-			//lines that start with '#' are just information, not the actual data
+			// lines that start with '#' are just information, not the actual data
 			if (line.charAt(0) != '#') {
 				String from = line.split("\\s+")[0];
 				String to = line.split("\\s+")[1];
-				if(!conections.containsKey(from)) {
+				if (!conections.containsKey(from)) {
 					conections.put(from, new ArrayList<String>());
 				}
 				conections.get(from).add(to);
 			}
 		}
 		sc.close();
+		// creation of all vertices
 		Map<String, Vertex> equivalent = new HashMap<String, Vertex>();
-		for(Map.Entry<String, List<String>> entry : conections.entrySet()) {
+		for (Map.Entry<String, List<String>> entry : conections.entrySet()) {
 			Vertex from;
-			if(!equivalent.containsKey(entry.getKey())) {
+			if (!equivalent.containsKey(entry.getKey())) {
 				from = new Vertex(entry.getKey());
 				equivalent.put(entry.getKey(), from);
 				graph.addVertex(from);
-			}
-			else {
+			} else {
 				from = equivalent.get(entry.getKey());
 			}
-			for(String name : entry.getValue()) {
+			// iteration of the vertices that from is connected to
+			// if the vertex does not exist create it and add it to the graph
+			// add all the corresponding edges
+			for (String name : entry.getValue()) {
 				Vertex to;
-				if(!equivalent.containsKey(name)) {
+				if (!equivalent.containsKey(name)) {
 					to = new Vertex(name);
 					equivalent.put(name, to);
 					graph.addVertex(to);
-				}
-				else {
+				} else {
 					to = equivalent.get(name);
 				}
 				graph.addEdge(from, to);
 			}
 		}
+		System.out.println("here");
 		return graph;
 	}
 
@@ -109,52 +112,48 @@ public class Parsers {
 			String line = sc.nextLine();
 			String name = line.split("\t")[0];
 			String comic = line.split("\t")[1];
-			//Keep track of all the heroes in the same comic
-			if(!groups.containsKey(comic)) {
+			// Keep track of all the heroes in the same comic
+			if (!groups.containsKey(comic)) {
 				List<String> heros = new ArrayList<String>();
 				heros.add(name);
 				groups.put(comic, heros);
-			}
-			else {
+			} else {
 				groups.get(comic).add(name);
 			}
-			
-				//Different comic so take all the heroes in the previous comic and add them to the group
-				
-				
-				//Start a blank list of heroes for the new comic
 		}
 		sc.close();
 		Map<String, Vertex> equivalent = new HashMap<String, Vertex>();
-		for(Map.Entry<String, List<String>> entry : groups.entrySet()) {
+		for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
+			// for each group iterate through the heoroes
+			// if the vertex has not been created, do so and add it to the graph
+			// add edges between any two heros that appear in the same comic as long as they
+			// are different
 			List<String> group = entry.getValue();
-			for(String hero:group) {
+			for (String hero : group) {
 				Vertex from;
-				if(!equivalent.containsKey(hero)) {
+				if (!equivalent.containsKey(hero)) {
 					from = new Vertex(hero);
 					equivalent.put(hero, from);
 					graph.addVertex(from);
-				}
-				else {
+				} else {
 					from = equivalent.get(hero);
 				}
-				for(String other:group) {
+				for (String other : group) {
 					Vertex to;
-					if(!other.equals(hero)) {
-						if(!equivalent.containsKey(other)) {
+					if (!other.equals(hero)) {
+						if (!equivalent.containsKey(other)) {
 							to = new Vertex(other);
 							equivalent.put(other, to);
 							graph.addVertex(to);
-						}
-						else {
-							to=equivalent.get(other);
+						} else {
+							to = equivalent.get(other);
 						}
 						graph.addEdge(from, to);
 					}
 				}
 			}
 		}
-		
+
 		return graph;
 	}
 

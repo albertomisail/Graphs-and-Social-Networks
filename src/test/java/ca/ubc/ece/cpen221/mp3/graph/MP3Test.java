@@ -40,7 +40,7 @@ public class MP3Test {
 		g1.addEdge(v3, v4);
 		g1.addEdge(v4, v5);
 		g1.addEdge(v2, v6);
-		assertEquals(2, Algorithms.maxDepth(g1, v1));
+
 		assertEquals(3, Algorithms.diameter(g1));
 
 	}
@@ -64,6 +64,7 @@ public class MP3Test {
 
 	@Test(expected = InfiniteDiameterException.class)
 	public void test2_1() throws InfiniteDiameterException {
+		//test for center and diameter of a disconnected graph and matrix rep
 		System.out.println("Test 2_1");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -78,6 +79,7 @@ public class MP3Test {
 
 	@Test(expected = InfiniteDiameterException.class)
 	public void test2_2() throws InfiniteDiameterException {
+		//test for center and diameter of a disconnected graph and list rep
 		System.out.println("Test 2_2");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -92,6 +94,7 @@ public class MP3Test {
 
 	@Test
 	public void test3() throws InfiniteDiameterException {
+		//Test for diameter and center of a disconnected graph
 		System.out.println("Test 3");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -144,6 +147,7 @@ public class MP3Test {
 
 	@Test
 	public void test4() throws InfiniteDiameterException {
+		//tests for a connected graph
 		System.out.println("Test 4");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -199,6 +203,7 @@ public class MP3Test {
 
 	@Test
 	public void test5() throws InfiniteDiameterException {
+		//tests for a cyclic graph
 		System.out.println("Test 5");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -228,6 +233,7 @@ public class MP3Test {
 
 	@Test
 	public void test6() throws InfiniteDiameterException {
+		//tests for a connected undirected graph
 		System.out.println("Test 6");
 		Vertex v1 = new Vertex("v1");
 		Vertex v2 = new Vertex("v2");
@@ -285,19 +291,23 @@ public class MP3Test {
 
 	@Test
 	public void test8() throws IOException, InfiniteDiameterException {
+		//test for the parsers
 		System.out.println("Test 8");
 		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
-		System.out.println(g.getVertices().size());
-		System.out.println(Algorithms.diameter(g));
-		System.out.println(Algorithms.center(g));
+		assertEquals(6445, g.getVertices().size());
+		/*System.out.println(Algorithms.diameter(g));
+		System.out.println(Algorithms.center(g));*/
 	}
-	/*
+	
 	@Test
 	public void test9() throws IOException, InfiniteDiameterException {
+		//test for the parsers
 		System.out.println("Test 9");
 		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
-		System.out.println(Algorithms.diameter(g));
-	}*/
+		assertEquals(36692, g.getVertices().size());
+		/*System.out.println(g.getVertices().size());
+		System.out.println(Algorithms.diameter(g));*/
+	}
 	
 	@Test
 	public void test10() throws InfiniteDiameterException {
@@ -378,6 +388,7 @@ public class MP3Test {
 
 	@Test(expected = IOException.class)
 	public void test16() throws IOException {
+		//test for the parsers
 		Graph g = Parsers.parseEnronDataset("datasets/enron2.txt", 2);
 		Graph h = Parsers.parseMarvelDataset("datasets/marvel2.txt", 2);
 		Graph j = Parsers.parseEnronDataset("datasets/enron.txt", 3);
@@ -385,6 +396,7 @@ public class MP3Test {
 
 	@Test(expected = IOException.class)
 	public void test17() throws IOException {
+		//test for the parsers
 		Graph j = Parsers.parseMarvelDataset("datasets/marvel.txt", 3);
 	}
 }

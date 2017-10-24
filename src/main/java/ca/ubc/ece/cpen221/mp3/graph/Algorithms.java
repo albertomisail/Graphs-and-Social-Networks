@@ -1,8 +1,7 @@
 package ca.ubc.ece.cpen221.mp3.graph;
 
 import java.util.ArrayList;
-
-import java.util.HashMap;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -100,11 +99,13 @@ public class Algorithms {
 		List<Vertex> result = new ArrayList<Vertex>();
 		queue.push(start);
 		while (!queue.isEmpty()) {
-			Vertex vertex = queue.pop();
-			if (!result.contains(vertex)) {
-				result.add(vertex);
-				for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
-					queue.push(downstreamNeighbors);
+			Vertex up = queue.pop();
+			// Take the next element and add its downstream neighbors to the stack so that
+			// they are the next ones on which to carry the search
+			if (!result.contains(up)) {
+				result.add(up);
+				for (Vertex down : graph.getDownstreamNeighbors(up)) {
+					queue.push(down);
 				}
 			}
 		}
@@ -131,6 +132,7 @@ public class Algorithms {
 			// from vertex
 			Map<Vertex, Integer> depths = Algorithms.bfsForVertex(graph, vertex);
 			List<Vertex> visitedVertices = new ArrayList<Vertex>();
+			// Add all the vertices visited into a list
 			for (Map.Entry<Vertex, Integer> entry : depths.entrySet()) {
 				visitedVertices.add(entry.getKey());
 			}
@@ -154,47 +156,67 @@ public class Algorithms {
 	 */
 	private static Map<Vertex, Integer> bfsForVertex(Graph graph, Vertex start) {
 		Map<Vertex, Integer> result = new LinkedHashMap<Vertex, Integer>();
-		//int depth = 0;
 		result.put(start, 0);
 		Queue<Vertex> queue = new LinkedList<Vertex>();
 		queue.add(start);
-		//maybe just hashset
-		
-		//Set<Vertex> nextLevel = new LinkedHashSet<Vertex>()
-		//while(!queue.isEmpty()){
 		while (!queue.isEmpty()) {
-			Vertex vertex = queue.remove();
-			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
-				//nextLevel.add(downstreamNeighbors);
-				if (!result.containsKey(downstreamNeighbors)) {
-					queue.add(downstreamNeighbors);
-					result.put(downstreamNeighbors, result.get(vertex) + 1);
+			// Take the first element in the queue
+			// Add all of its downstream neighbors to the queue to carry the BFS on them
+			// after the vertices in the current level are done
+			Vertex up = queue.remove();
+			// Add all of its downstream neighbors to the map with a depth one bigger than
+			// the depth of up
+			for (Vertex down : graph.getDownstreamNeighbors(up)) {
+				if (!result.containsKey(down)) {
+					queue.add(down);
+					result.put(down, result.get(up) + 1);
 				}
 			}
 		}
 		return result;
 	}
-	
-	public static int maxDepth(Graph graph, Vertex start) {
-		int depth = 0;
-		Queue<Vertex> queue = new LinkedList<Vertex>();
-		Queue<Integer> level = new LinkedList<Integer>();
+
+	/**
+	 * Calculates the maximum depth that it is possible by carrying a BFS in graph
+	 * starting at start
+	 * 
+	 * @param graph,
+	 *            requires: graph to be non-empty
+	 * @param start,
+	 *            requires: start is a vertex of graph
+	 * @return the maximum depth that it is possible by carrying a BFS in graph
+	 *         starting at start
+	 */
+	private static int maxDepth(Graph graph, Vertex start) {
+		int maxDepth = 0;
+		Queue<Vertex> thisLevel = new LinkedList<Vertex>();
+		Queue<Vertex> nextLevel = new LinkedList<Vertex>();
 		Set<Vertex> visited = new HashSet<Vertex>();
-		queue.add(start);
-		level.add(0);
-		visited.add(start);		
-		while (!queue.isEmpty()) {
-			Vertex vertex = queue.remove();
-			if(depth <= level.peek())
-				depth = level.remove();
-			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
-				if(visited.add(downstreamNeighbors)) {
-					queue.add(downstreamNeighbors);
-					level.add(depth+1);
+		thisLevel.add(start);
+		visited.add(start);
+		boolean flag = true;
+		while (flag) {
+			// while there are still vertices in this level keep computing the vertices of
+			// the next one
+			while (!thisLevel.isEmpty()) {
+				Vertex up = thisLevel.remove();
+				for (Vertex down : graph.getDownstreamNeighbors(up)) {
+					if (visited.add(down)) {
+						nextLevel.add(down);
+					}
 				}
 			}
+			// if a next level exist, increase the depth and prepare everything to keep the
+			// bfs in this new level
+			if (!nextLevel.isEmpty()) {
+				maxDepth++;
+				thisLevel.addAll(nextLevel);
+				nextLevel.clear();
+			} else {
+				flag = false;
+			}
 		}
-		return depth;
+		return maxDepth;
 	}
 
 	/**
@@ -229,8 +251,7 @@ public class Algorithms {
 
 	/**
 	 * Does a BFS until the depth of the vertices is bigger or equal to max. Returns
-	 * the biggest x such that x is less or equal to the eccentricity of start and x
-	 * is less or equal to a maximum value
+	 * the minimum between max and the eccentricity of start
 	 * 
 	 * @param graph,
 	 *            the graph of which start is part from requires: graph is non-empty
@@ -241,8 +262,7 @@ public class Algorithms {
 	 *            the maximum depth at which to stop the BFS requires: max is
 	 *            non-negative
 	 * @return biggest value x such that x is less or equal to the eccentricity of
-	 *         start and x is less or equal to max
-	 *             if x is equal to 0
+	 *         start and x is less or equal to max if x is equal to 0
 	 */
 	private static int bfsWithMaxDepth(Graph graph, Vertex start, int max) {
 		Map<Vertex, Integer> depths = new LinkedHashMap<Vertex, Integer>();
@@ -250,19 +270,23 @@ public class Algorithms {
 		List<Vertex> queue = new ArrayList<Vertex>();
 		queue.add(start);
 		int eccentricity = 0;
+		// Carry a normal bfs
 		while (!queue.isEmpty()) {
 			Vertex vertex = queue.remove(0);
 			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
 				if (!depths.containsKey(downstreamNeighbors)) {
 					queue.add(downstreamNeighbors);
-					int value = depths.get(vertex) + 1;
-					depths.put(downstreamNeighbors, value);
-					if (value >= max) {
-						return value;
+					int depth = depths.get(vertex) + 1;
+					depths.put(downstreamNeighbors, depth);
+					// if you realize that the depth is bigger than the max, the eccentricty will be
+					// bigger than the max
+					if (depth >= max) {
+						return depth;
 					}
 				}
 			}
 		}
+		// compute the maximum depth among all vertices
 		for (Map.Entry<Vertex, Integer> entry : depths.entrySet()) {
 			if (entry.getValue() > eccentricity) {
 				eccentricity = entry.getValue();
@@ -288,16 +312,22 @@ public class Algorithms {
 		// TODO: Implement this method
 		int diameter = 0;
 		int count = 0;
+		// Calculate the eccentricty of each vertex and compare it to see if its the
+		// maximum
 		for (Vertex vertex : graph.getVertices()) {
-			/*count++;
-			if(count%100==0) {
-				System.out.println(count);
-			}*/
-			int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
+			int eccentricity = Algorithms.maxDepth(graph, vertex);
+			//int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
 			if (eccentricity > diameter) {
 				diameter = eccentricity;
 			}
+			count++;
+			if (count % 100 == 0) {
+				Date t = new Date();
+				System.out.println(t.getTime());
+			}
 		}
+		// if all eccentricites are 0, then the diameter is also 0
+		// there is no edges in the graph so the diameter is actually infinity
 		if (diameter == 0) {
 			throw new InfiniteDiameterException();
 		}
@@ -357,6 +387,8 @@ public class Algorithms {
 	 * @return a list list3 such that if e is in list3 then e is in list1 and list2
 	 */
 	private static List<Vertex> commonVertices(List<Vertex> list1, List<Vertex> list2) {
+		// loop through one list and check it each element of this list is contained in
+		// the other one
 		List<Vertex> result = new ArrayList<Vertex>();
 		for (int i = 0; i < list1.size(); i++) {
 			Vertex v = list1.get(i);

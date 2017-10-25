@@ -56,6 +56,7 @@ public class Algorithms {
 			// Condition is only true if b was not visited by the BFS of a
 			throw new NotFoundException();
 		}
+		
 		return distances.get(b);
 	}
 

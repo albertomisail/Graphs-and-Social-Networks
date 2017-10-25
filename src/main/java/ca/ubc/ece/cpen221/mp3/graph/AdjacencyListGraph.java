@@ -5,6 +5,7 @@ import ca.ubc.ece.cpen221.mp3.staff.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,14 +20,14 @@ public class AdjacencyListGraph implements Graph {
 	 * cannot be contained by the set s, where s is the value of the entry whose key
 	 * is v
 	 */
-	private final Map<Vertex, HashSet<Vertex>> adjacencyList;
-
+	private final Map<Vertex, LinkedHashSet<Vertex>> adjacencyList;
+	
 	public AdjacencyListGraph() {
-		adjacencyList = new LinkedHashMap<Vertex, HashSet<Vertex>>();
+		adjacencyList = new LinkedHashMap<Vertex, LinkedHashSet<Vertex>>();
 	}
 
 	public void addVertex(Vertex v) {
-		adjacencyList.put(v, new HashSet<Vertex>());
+		adjacencyList.put(v, new LinkedHashSet<Vertex>());
 	}
 
 	public void addEdge(Vertex v1, Vertex v2) {
@@ -39,7 +40,7 @@ public class AdjacencyListGraph implements Graph {
 
 	public List<Vertex> getVertices() {
 		List<Vertex> result = new ArrayList<Vertex>();
-		for (Map.Entry<Vertex, HashSet<Vertex>> entry : adjacencyList.entrySet()) {
+		for (Map.Entry<Vertex, LinkedHashSet<Vertex>> entry : adjacencyList.entrySet()) {
 			result.add(entry.getKey());
 		}
 		return result;
@@ -56,7 +57,7 @@ public class AdjacencyListGraph implements Graph {
 
 	public List<Vertex> getUpstreamNeighbors(Vertex v) {
 		ArrayList<Vertex> result = new ArrayList<Vertex>();
-		for (Map.Entry<Vertex, HashSet<Vertex>> entry : adjacencyList.entrySet()) {
+		for (Map.Entry<Vertex, LinkedHashSet<Vertex>> entry : adjacencyList.entrySet()) {
 			if (entry.getValue().contains(v)) {
 				result.add(entry.getKey());
 			}

@@ -1,6 +1,5 @@
 package ca.ubc.ece.cpen221.mp3.graph;
 
-import ca.ubc.ece.cpen221.mp3.graph.*;
 import ca.ubc.ece.cpen221.mp3.graph.Algorithms;
 import ca.ubc.ece.cpen221.mp3.graph.InfiniteDiameterException;
 import ca.ubc.ece.cpen221.mp3.graph.NotFoundException;
@@ -295,8 +294,6 @@ public class MP3Test {
 		System.out.println("Test 8");
 		Graph g = Parsers.parseMarvelDataset("datasets/marvel.txt", 1);
 		assertEquals(6445, g.getVertices().size());
-		/*System.out.println(Algorithms.diameter(g));
-		System.out.println(Algorithms.center(g));*/
 	}
 	
 	@Test
@@ -305,8 +302,6 @@ public class MP3Test {
 		System.out.println("Test 9");
 		Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
 		assertEquals(36692, g.getVertices().size());
-		/*System.out.println(g.getVertices().size());
-		System.out.println(Algorithms.diameter(g));*/
 	}
 	
 	@Test

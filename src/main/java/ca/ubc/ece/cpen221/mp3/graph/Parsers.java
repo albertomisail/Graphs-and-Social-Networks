@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -38,7 +39,7 @@ public class Parsers {
 			throw new IOException();
 		}
 		Scanner sc = new Scanner(new File(fileName));
-		Map<String, List<String>> conections = new HashMap<String, List<String>>();
+		Map<String, List<String>> conections = new LinkedHashMap<String, List<String>>();
 		while (sc.hasNext()) {
 			String line = sc.nextLine();
 			// lines that start with '#' are just information, not the actual data
@@ -53,7 +54,7 @@ public class Parsers {
 		}
 		sc.close();
 		// creation of all vertices
-		Map<String, Vertex> equivalent = new HashMap<String, Vertex>();
+		Map<String, Vertex> equivalent = new LinkedHashMap<String, Vertex>();
 		for (Map.Entry<String, List<String>> entry : conections.entrySet()) {
 			Vertex from;
 			if (!equivalent.containsKey(entry.getKey())) {
@@ -78,7 +79,6 @@ public class Parsers {
 				graph.addEdge(from, to);
 			}
 		}
-		System.out.println("here");
 		return graph;
 	}
 

@@ -2,6 +2,7 @@ package ca.ubc.ece.cpen221.mp3.graph;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -177,49 +178,6 @@ public class Algorithms {
 	}
 
 	/**
-	 * Calculates the maximum depth that it is possible by carrying a BFS in graph
-	 * starting at start
-	 * 
-	 * @param graph,
-	 *            requires: graph to be non-empty
-	 * @param start,
-	 *            requires: start is a vertex of graph
-	 * @return the maximum depth that it is possible by carrying a BFS in graph
-	 *         starting at start
-	 */
-	private static int maxDepth(Graph graph, Vertex start) {
-		int maxDepth = 0;
-		Queue<Vertex> thisLevel = new LinkedList<Vertex>();
-		Queue<Vertex> nextLevel = new LinkedList<Vertex>();
-		Set<Vertex> visited = new HashSet<Vertex>();
-		thisLevel.add(start);
-		visited.add(start);
-		boolean flag = true;
-		while (flag) {
-			// while there are still vertices in this level keep computing the vertices of
-			// the next one
-			while (!thisLevel.isEmpty()) {
-				Vertex up = thisLevel.remove();
-				for (Vertex down : graph.getDownstreamNeighbors(up)) {
-					if (visited.add(down)) {
-						nextLevel.add(down);
-					}
-				}
-			}
-			// if a next level exist, increase the depth and prepare everything to keep the
-			// bfs in this new level
-			if (!nextLevel.isEmpty()) {
-				maxDepth++;
-				thisLevel.addAll(nextLevel);
-				nextLevel.clear();
-			} else {
-				flag = false;
-			}
-		}
-		return maxDepth;
-	}
-
-	/**
 	 * Calculates the eccentricity for each vertex of the graph. Returns a vertex
 	 * for which the eccentricity is minimum
 	 * 
@@ -265,34 +223,35 @@ public class Algorithms {
 	 *         start and x is less or equal to max if x is equal to 0
 	 */
 	private static int bfsWithMaxDepth(Graph graph, Vertex start, int max) {
-		Map<Vertex, Integer> depths = new LinkedHashMap<Vertex, Integer>();
-		depths.put(start, 0);
-		List<Vertex> queue = new ArrayList<Vertex>();
-		queue.add(start);
-		int eccentricity = 0;
-		// Carry a normal bfs
-		while (!queue.isEmpty()) {
-			Vertex vertex = queue.remove(0);
-			for (Vertex downstreamNeighbors : graph.getDownstreamNeighbors(vertex)) {
-				if (!depths.containsKey(downstreamNeighbors)) {
-					queue.add(downstreamNeighbors);
-					int depth = depths.get(vertex) + 1;
-					depths.put(downstreamNeighbors, depth);
-					// if you realize that the depth is bigger than the max, the eccentricty will be
-					// bigger than the max
-					if (depth >= max) {
-						return depth;
+		Queue<Vertex> thisLevel = new LinkedList<Vertex>();
+		Queue<Vertex> nextLevel = new LinkedList<Vertex>();
+		Set<Vertex> visited = new HashSet<Vertex>();
+		thisLevel.add(start);
+		visited.add(start);
+		boolean flag = true;
+		int maxDepth = 0;
+		while (flag && maxDepth < max) {
+			// while there are still vertices in this level keep computing the vertices of
+			// the next one
+			while (!thisLevel.isEmpty()) {
+				Vertex up = thisLevel.remove();
+				for (Vertex down : graph.getDownstreamNeighbors(up)) {
+					if (visited.add(down)) {
+						nextLevel.add(down);
 					}
 				}
 			}
-		}
-		// compute the maximum depth among all vertices
-		for (Map.Entry<Vertex, Integer> entry : depths.entrySet()) {
-			if (entry.getValue() > eccentricity) {
-				eccentricity = entry.getValue();
+			// if a next level exist, increase the depth and prepare everything to keep the
+			// bfs in this new level
+			if (!nextLevel.isEmpty()) {
+				maxDepth++;
+				thisLevel.addAll(nextLevel);
+				nextLevel.clear();
+			} else {
+				flag = false;
 			}
 		}
-		return eccentricity;
+		return maxDepth;
 	}
 
 	/**
@@ -311,19 +270,14 @@ public class Algorithms {
 	public static int diameter(Graph graph) throws InfiniteDiameterException {
 		// TODO: Implement this method
 		int diameter = 0;
-		int count = 0;
+		int maxDepthPossible = graph.getVertices().size();
 		// Calculate the eccentricty of each vertex and compare it to see if its the
 		// maximum
 		for (Vertex vertex : graph.getVertices()) {
-			int eccentricity = Algorithms.maxDepth(graph, vertex);
-			//int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
+			int eccentricity = Algorithms.bfsWithMaxDepth(graph, vertex, maxDepthPossible);
+			// int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
 			if (eccentricity > diameter) {
 				diameter = eccentricity;
-			}
-			count++;
-			if (count % 100 == 0) {
-				Date t = new Date();
-				System.out.println(t.getTime());
 			}
 		}
 		// if all eccentricites are 0, then the diameter is also 0
@@ -332,26 +286,6 @@ public class Algorithms {
 			throw new InfiniteDiameterException();
 		}
 		return diameter;
-	}
-
-	/**
-	 * Does a BFS starting from vertex. Returns the maximum depth of the BFS.
-	 * 
-	 * @param graph,
-	 *            requires graph to be non-empty
-	 * @param vertex,
-	 *            requires vertex to be a vertex of graph
-	 * @return the maximum depth of the BFS
-	 */
-	private static int calculateEccentricity(Graph graph, Vertex vertex) {
-		int eccentricity = 0;
-		Map<Vertex, Integer> eccentricities = Algorithms.bfsForVertex(graph, vertex);
-		for (Map.Entry<Vertex, Integer> entry : eccentricities.entrySet()) {
-			if (entry.getValue() > eccentricity) {
-				eccentricity = entry.getValue();
-			}
-		}
-		return eccentricity;
 	}
 
 	/**

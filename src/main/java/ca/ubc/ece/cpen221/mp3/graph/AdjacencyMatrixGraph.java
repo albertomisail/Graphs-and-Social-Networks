@@ -16,6 +16,7 @@ public class AdjacencyMatrixGraph implements Graph {
 	 * itself: If i is any integer between 0 and connectionMatrix.size()-1
 	 * (included) connectionMatrix.get(i).get(i) is false
 	 * All vertex are not null
+	 * Abstraction function: this object represents a graph, and the edges that connect these vertices
 	 */
 	private final List<List<Boolean>> connectionMatrix;
 	private final List<Vertex> vertexList;

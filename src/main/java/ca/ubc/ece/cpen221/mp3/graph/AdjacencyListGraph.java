@@ -17,7 +17,8 @@ public class AdjacencyListGraph implements Graph {
 	 * adjacencyList. There is no edge that goes from a vertex to itself: A vertex v
 	 * cannot be contained by the set s, where s is the value of the entry whose key
 	 * is v
-	 * All vertex are not null
+	 * All vertex are not null	 * 
+	 * Abstraction function: this object represents a graph, and the edges that connect these vertices
 	 */
 	private final Map<Vertex, LinkedHashSet<Vertex>> adjacencyList;
 	

@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -159,6 +161,13 @@ public class GraphTest {
     @Parameterized.Parameters
     public static Collection<Object[]> instancesToTest() {
         return Arrays.asList(new Object[] { new AdjacencyListGraph() }, new Object[] { new AdjacencyMatrixGraph() });
+    }
+
+    @Test
+    public void test55() throws IOException, InfiniteDiameterException {
+        Graph g = Parsers.parseEnronDataset("datasets/enron.txt", 1);
+        System.out.println("parsed");
+        System.out.println(Algorithms.diameter(g));
     }
 
 }

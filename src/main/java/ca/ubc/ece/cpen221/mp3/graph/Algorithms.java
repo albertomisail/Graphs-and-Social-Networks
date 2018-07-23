@@ -1,15 +1,6 @@
 package ca.ubc.ece.cpen221.mp3.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
@@ -271,7 +262,15 @@ public class Algorithms {
 		int maxDepthPossible = graph.getVertices().size();
 		// Calculate the eccentricty of each vertex and compare it to see if its the
 		// maximum
+		int count = 0;
 		for (Vertex vertex : graph.getVertices()) {
+
+			if(count%100==0){
+				System.out.println(count);
+				Date d = new Date();
+				System.out.println(d.getTime());
+			}
+			count++;
 			int eccentricity = Algorithms.bfsWithMaxDepth(graph, vertex, maxDepthPossible);
 			// int eccentricity = Algorithms.calculateEccentricity(graph, vertex);
 			if (eccentricity > diameter) {
